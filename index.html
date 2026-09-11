@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Session 2 · Five exercises — Yellow Tech × Unobravo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Figtree:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Yellow Tech — palette e linguaggio visivo di yellowtech-home-v1
+   Stesso HTML di session-2-content.html: cambia solo l'estetica.
+   ============================================================ */
+:root{
+  --bg:#F6F9FC;--pale:#EEF2F7;--inset:#E6EAF0;--card:#FFFFFF;
+  --dark:#0A1628;--ink:#0A1628;--ink-2:#1A1A3A;--muted:#546178;--dim:#8896A6;
+  --blue:#2121A3;--blue-mid:#2929C0;--blue-light:#2C1AE2;--blue-bright:#4454FF;
+  --blue-soft:#8191EF;--blue-pale:#E8ECFF;
+  --yellow:#FFEB5F;
+  --line:rgba(10,22,40,.08);--line-2:rgba(10,22,40,.14);
+  --r:16px;--r-lg:24px;--pill:100px;
+  --sh-sm:0 1px 3px rgba(10,22,40,.05),0 1px 2px rgba(10,22,40,.03);
+  --sh-md:0 4px 16px rgba(10,22,40,.07),0 1px 4px rgba(10,22,40,.04);
+  --sh-lg:0 14px 44px rgba(10,22,40,.10),0 4px 14px rgba(10,22,40,.05);
+  --glow:0 8px 32px rgba(44,26,226,.14),0 0 0 1px rgba(44,26,226,.08);
+  --mx:min(940px,92vw);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Figtree,system-ui,sans-serif;
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:Manrope,system-ui,sans-serif;font-weight:600;letter-spacing:-.032em;line-height:1.1;margin:0}
+p{margin:0 0 1em}
+a{color:var(--blue-light)}
+.wrap{width:var(--mx);margin:0 auto}
+.kick{font-family:Figtree,system-ui,sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--blue-light);margin:0 0 14px}
+section{padding:64px 0;position:relative;overflow:hidden}
+section[style*="--pale"]{border-radius:40px 40px 0 0}
+.hex{width:17px;height:19px;background:var(--yellow);
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);flex:none}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.45;pointer-events:none}
+code{font-family:'Geist Mono',ui-monospace,monospace;font-size:.87em;background:var(--blue-pale);
+  border:1px solid rgba(44,26,226,.10);border-radius:6px;padding:1px 6px;color:var(--blue)}
+.hl{background:linear-gradient(transparent 58%,rgba(255,235,95,.9) 58%);padding:0 2px}
+
+/* hero */
+header.hero{background:var(--dark);color:#fff;padding:64px 0 56px;position:relative;overflow:hidden}
+header.hero .b1{width:520px;height:520px;background:#2C1AE2;top:-230px;right:-150px;opacity:.55}
+header.hero .b2{width:320px;height:320px;background:#FFEB5F;bottom:-190px;left:-120px;opacity:.16}
+header.hero .wrap{position:relative;z-index:2}
+header.hero .kick{color:var(--yellow)}
+h1{font-size:clamp(34px,5.6vw,58px);letter-spacing:-.035em}
+.grad{background:linear-gradient(96deg,var(--yellow) 0%,var(--blue-soft) 48%,var(--blue-bright) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.hero-sub{font-size:clamp(18px,2vw,21px);color:#A9B5C6;font-weight:400;max-width:64ch;margin-top:18px}
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:28px}
+.chip{font-family:Figtree,system-ui,sans-serif;font-size:13px;font-weight:500;
+  border:1px solid rgba(255,255,255,.18);border-radius:var(--pill);padding:7px 16px;color:#C6D0DC}
+.chip.hot{background:var(--yellow);color:#000;border-color:var(--yellow);
+  font-family:Manrope,system-ui,sans-serif;font-weight:600}
+
+/* contents list */
+.toc{margin-top:30px;border-top:1px solid var(--line)}
+.toc a{display:flex;gap:18px;align-items:baseline;padding:18px 8px;border-bottom:1px solid var(--line);
+  text-decoration:none;color:inherit;border-radius:14px;
+  transition:background .18s,padding .18s,box-shadow .18s}
+.toc a:hover{background:#fff;padding-left:16px;box-shadow:var(--sh-md)}
+.toc .n{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:21px;
+  color:var(--blue-light);letter-spacing:-.04em;flex:none;width:30px}
+.toc .tx{flex:1;min-width:0}
+.toc .tt{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:17.5px;
+  letter-spacing:-.025em;display:block}
+.toc .td{font-size:14.5px;color:var(--muted);display:block;margin-top:3px}
+.toc .tm{font-family:Figtree,system-ui,sans-serif;font-size:12.5px;font-weight:500;color:var(--dim);flex:none}
+
+.chain{background:var(--dark);color:#D5DDE8;border-radius:var(--r-lg);padding:24px 26px;margin:26px 0 0;
+  font-family:'Geist Mono',monospace;font-size:12.5px;line-height:2;overflow-x:auto}
+.chain b{color:var(--yellow);font-weight:500}
+
+.note{border-left:3px solid var(--blue-light);background:var(--blue-pale);
+  padding:16px 20px;border-radius:0 14px 14px 0;font-size:15.5px;margin:24px 0}
+.note.y{border-color:#D8C43A;background:rgba(255,235,95,.22)}
+.note b{font-family:Manrope,system-ui,sans-serif;font-weight:600}
+
+/* exercise cards */
+.ex{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+  margin-bottom:26px;overflow:hidden;box-shadow:var(--sh-md)}
+.ex-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  background:var(--blue);color:#fff;padding:16px 28px}
+.ex-head .l{display:flex;align-items:center;gap:14px}
+.enum{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:24px;
+  color:var(--yellow);letter-spacing:-.04em;line-height:1}
+.etag{font-family:Manrope,system-ui,sans-serif;font-size:13.5px;font-weight:600;letter-spacing:-.01em;
+  background:var(--yellow);color:#0A1628;border-radius:var(--pill);padding:5px 15px}
+.etag.b{background:#fff;color:var(--blue)}
+.etag.g{background:var(--blue-pale);color:var(--blue)}
+.etag.p{background:#C9D2FF;color:var(--blue)}
+.etime{font-family:Figtree,system-ui,sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,.62)}
+.ex-body{padding:28px}
+.ex-body h3{font-size:clamp(20px,2.5vw,27px);margin-bottom:14px}
+.ex-body>p{font-size:16.5px}
+.sub{font-family:Figtree,system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--dim);margin:26px 0 11px;display:block}
+.box{border-radius:var(--r);padding:18px 20px;margin:0 0 20px}
+.box .bl{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:15px;
+  letter-spacing:-.02em;display:block;margin-bottom:8px}
+.box.goal{background:var(--blue-pale);border:1px solid rgba(44,26,226,.12)}
+.box.mat{background:var(--pale);border:1px solid var(--line)}
+.box.mat ul{margin:0;padding-left:19px;font-size:15.5px}
+.box.mat li{margin-bottom:5px}
+ol.steps{margin:0;padding-left:23px;font-size:16px}
+ol.steps>li{margin-bottom:12px}
+ol.steps>li::marker{color:var(--blue-light);font-weight:600}
+ol.steps>li.opt{background:rgba(255,235,95,.34);border-radius:12px;padding:9px 15px}
+ol.steps ul{margin:7px 0 0;padding-left:19px;font-size:15px;color:var(--muted)}
+ol.steps ol.substeps{margin:9px 0 0;padding-left:21px;list-style:lower-alpha;
+  font-family:inherit;font-size:inherit;color:inherit;letter-spacing:normal;text-transform:none}
+ol.steps ol.substeps>li{margin-bottom:9px}
+ol.steps ul ul{margin:8px 0 4px;padding-left:0;list-style:none;font-size:14.5px;color:var(--ink)}
+ol.steps ul ul>li{padding:3px 0 3px 13px;border-left:2px solid var(--line-2);margin-bottom:2px}
+ol.steps ul ul>li b{font-family:Figtree,system-ui,sans-serif;font-weight:600;font-size:13px;
+  color:var(--blue-light);margin-right:7px}
+
+details.sample{margin:24px 0 0}
+details.sample summary{cursor:pointer;display:inline-flex;align-items:center;gap:9px;
+  font-family:Manrope,system-ui,sans-serif;font-size:14px;font-weight:600;letter-spacing:-.01em;
+  background:var(--blue-light);color:#fff;border-radius:var(--pill);padding:10px 20px;list-style:none;
+  box-shadow:var(--glow);transition:background .18s}
+details.sample summary:hover{background:var(--blue-mid)}
+details.sample summary::-webkit-details-marker{display:none}
+details.sample summary::after{content:'▾'}
+details.sample[open] summary::after{content:'▴'}
+.pbox{position:relative;margin-top:14px;background:var(--dark);border-radius:var(--r-lg);padding:22px 22px 20px}
+.pbox .pl{font-family:Figtree,system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--yellow);display:block;margin-bottom:10px}
+.pbox pre{margin:0;font-family:'Geist Mono',monospace;font-size:12.5px;line-height:1.66;color:#D5DDE8;
+  white-space:pre-wrap;word-break:break-word}
+.pbox+.pbox{margin-top:12px}
+button.copy{position:absolute;top:15px;right:15px;background:rgba(255,255,255,.1);color:#fff;
+  border:1px solid rgba(255,255,255,.22);border-radius:var(--pill);padding:6px 14px;cursor:pointer;
+  font-family:Figtree,system-ui,sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.03em}
+button.copy:hover{background:var(--yellow);color:#000;border-color:var(--yellow)}
+.caseblock{position:relative;background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue-light);
+  border-radius:0 var(--r-lg) var(--r-lg) 0;padding:24px 26px;margin:24px 0;box-shadow:var(--sh-sm)}
+.caseblock .cl{font-family:Figtree,system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--blue-light);display:block;margin-bottom:10px}
+.caseblock p{font-size:16.5px;margin:0}
+.caseblock p+p{margin-top:10px}
+button.copy.dk{background:var(--inset);color:var(--ink);border-color:var(--line-2)}
+button.copy.dk:hover{background:var(--yellow);color:#000;border-color:var(--yellow)}
+.done{background:#fff;border:1px solid var(--line-2);border-radius:var(--r);padding:18px 20px;
+  margin-top:20px;box-shadow:var(--sh-sm)}
+.done .bl{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:15px;
+  letter-spacing:-.02em;display:block;margin-bottom:8px}
+.done label{display:block;position:relative;padding-left:27px;font-size:15.5px;margin-bottom:8px;cursor:pointer}
+.done input{position:absolute;left:0;top:6px;accent-color:var(--blue-light);margin:0}
+footer{background:var(--dark);color:#8896A6;padding:44px 0;font-size:14px}
+footer b{color:#fff}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+@media(max-width:760px){section{padding:48px 0}section[style*="--pale"]{border-radius:28px 28px 0 0}.toc .tm{display:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="wrap">
+    <p class="kick">AI Champions program · Session two</p>
+    <h1>Five exercises.<br><span class="grad">One process, 5 steps.</span></h1>
+    <p class="hero-sub">Two hours, hands on the keyboard. The exercises chain together.</p>
+    <div class="chips">
+      <span class="chip hot">Hands-on session</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== INTRO ===== -->
+<section>
+  <div class="wrap">
+    <p class="kick">What we do today</p>
+    <h2 style="font-size:clamp(25px,3.4vw,36px);max-width:30ch">One decision, five exercises, one folder at the end.</h2>
+    <p style="margin-top:16px;color:var(--muted);font-size:19px;max-width:74ch">Five exercises on the same case, each one building on the last. You leave with a reusable expert panel, an HTML page, a skill, two guardrails and a routine that briefs you every morning.</p>
+
+    <div class="toc">
+      <a href="#e1"><span class="n">1</span><span class="tx"><span class="tt">Subagents — evaluate a decision, then keep the panel</span><span class="td">Five expert lenses in parallel, then saved as reusable subagent files in your project</span></span><span class="tm">20′</span></a>
+      <a href="#e2"><span class="n">2</span><span class="tx"><span class="tt">/goal — turn the verdict into an HTML page</span><span class="td">Set a bar, let it iterate until it passes, read the change log</span></span><span class="tm">15′</span></a>
+      <a href="#e3"><span class="n">3</span><span class="tx"><span class="tt">Turn the whole chat into a skill</span><span class="td">Everything above becomes <code>/decision-review</code>, tested on a decision it has never seen</span></span><span class="tm">15′</span></a>
+      <a href="#e4"><span class="n">4</span><span class="tx"><span class="tt">Two hooks — one before you send, one after Claude answers</span><span class="td">One stops contact details leaving, one writes your log without being asked</span></span><span class="tm">15′</span></a>
+      <a href="#e5"><span class="n">5</span><span class="tx"><span class="tt">A cloud routine that briefs you every morning</span><span class="td">Calendar + Gmail + Slack, read while your laptop is off — today, what's due this week, and who's waiting</span></span><span class="tm">20′</span></a>
+    </div>
+
+    <span class="sub" style="margin-top:34px">How they fit together</span>
+    <div class="chain">
+<b>1</b> &nbsp;five experts review the decision, instead of one opinion<br>
+<b>2</b> &nbsp;you set the bar, and it iterates until the page passes<br>
+<b>3</b> &nbsp;the whole process collapses into one command<br>
+<b>4</b> &nbsp;the rules stop needing you to remember them<br>
+<b>5</b> &nbsp;and the last one runs with your laptop shut
+    </div>
+    <p style="font-size:15.5px;color:var(--muted);margin:14px 0 0">The first three are one piece of work passed along — a review becomes a page, the page becomes a command. The last two are what happens once you step away from it: the rules keep applying, and the work keeps arriving, with nobody driving.</p>
+
+    <div class="note">
+      <b>One thing to check now.</b> Exercises 1 to 4 need nothing but your folder — no connectors, nothing to authorize. Exercise 5 is the only one that reads your Google and Slack, so if you get those two connectors authorized while we're getting started, you won't be waiting on a login at the end.
+    </div>
+
+    <p class="kick" style="margin-top:44px">The case — one decision, for everyone</p>
+    <div class="caseblock">
+      <button class="copy dk">Copy</button>
+      <span class="cl">Paste this into exercise 1 · fictional, for practice only</span>
+      <p><b>Unobravo is considering an AI assistant that prepares the therapist before each session.</b> Before a call, it reads what the patient has written in the app that week and produces a 30-second summary for the therapist: mood trend, topics raised, anything the patient flagged as urgent. It never diagnoses, it never writes anything back to the patient, and the therapist can ignore it.</p>
+      <p>Proposed pilot: 40 volunteer therapists, 8 weeks, patients opt in explicitly and can switch it off at any time.</p>
+      <p><b>Ship it, kill it, or ship it with conditions?</b></p>
+    </div>
+
+    <div class="note y">
+      <b>Three ground rules, and they hold all session.</b><br>
+      <b>1 · Everything today is invented.</b> This decision is not on anyone's roadmap. Use no real patient data, no real session content, no real clinical records — not even sanitized ones. The case is written so you never need them.<br>
+      <b>2 · Ask out loud.</b> If a step feels unfamiliar, say so — someone else has the same question, and the answer is worth more to the whole room than to one person in a private chat.<br>
+      <b>3 · Write your own prompt first, then open the sample.</b> Every exercise has one, closed by default — it's there for when you're stuck or want to compare, not to start from. They're also deliberately imperfect: if you spot an instruction that's missing, add it.
+    </div>
+
+    <span class="sub">Before we start · 3 minutes</span>
+    <ol class="steps">
+      <li>Create a folder called <code>unobravo-champions/</code> and mount it in <b>Claude Code or Cowork</b>: open a new session and select that folder; if one has already been selected, click on it and change it.</li>
+      <li><b>Ask Claude to create a <code>CLAUDE.md</code> and a <code>STATUS.md</code> for this folder</b> — plain language, no command needed:
+        <ul style="color:var(--ink)">
+          <li><i>"Create a CLAUDE.md for this project: it's my AI Champions practice folder, everything in it is invented practice material. Also create a STATUS.md, a running log of where the work stands."</i></li>
+        </ul>
+        Then skim both files. <code>STATUS.md</code> is what tells you where you left off when you come back tomorrow — and in exercise 4 you'll add a hook that keeps it updated for you, without being asked.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== EXERCISES ===== -->
+<section style="background:var(--pale);padding-top:52px">
+  <div class="wrap">
+
+    <!-- E1 -->
+    <article class="ex rv" id="e1">
+      <div class="ex-head">
+        <div class="l"><span class="enum">01</span><span class="etag">Subagents</span></div>
+        <span class="etime">20′</span>
+      </div>
+      <div class="ex-body">
+        <h3>Evaluate a decision with five experts at once — then keep the panel</h3>
+        <p>One agent can give you one opinion. Five subagents running in parallel give you five independent ones, each looking at the same decision through a different lens, none of them influenced by the others. Each one also has to land its verdict on a number — which key result this moves, which one it endangers — so the review comes back in the language the quarter is already written in. Then the interesting part: <span class="hl">you save that panel to your project</span> so the next decision takes one line instead of a whole prompt.</p>
+
+        <div class="box goal">
+          <span class="bl">🎯 Goal</span>
+          A single review of the decision — five verdicts, the risks they agree on, which of this quarter's key results the decision moves and which it endangers, and one recommendation — plus five reusable subagent files sitting in your project folder, proven to work in a fresh chat.
+        </div>
+
+        <div class="box mat">
+          <span class="bl">📁 What you need</span>
+          <ul>
+            <li>The decision text from the intro (copy button on the block above)</li>
+            <li>Your <code>unobravo-champions/</code> folder, mounted</li>
+            <li><b>No connectors.</b> Nothing leaves your machine in this exercise</li>
+          </ul>
+        </div>
+
+        <span class="sub">Step by step</span>
+        <ol class="steps">
+          <li><b>Paste the decision</b> into a new chat in your folder.</li>
+          <li><b>Run the panel.</b> It's one prompt, and it does three things.
+            <ol class="substeps">
+              <li><b>Ask for five subagents in parallel</b>, one lens each — and be explicit that they must not see each other's answers:
+                <ul>
+                  <li>clinical quality &amp; safety · privacy and compliance · patient trust &amp; brand · operations and support load · money and viability <i>(describe them as you see fit)</i></li>
+                </ul>
+              </li>
+              <li><b>Define what each one returns</b> — same five fields for all five, so the merge has something to line up: their verdict, their single biggest risk, the one condition that would make them say yes, what evidence would change their mind, and <b>the key result this decision moves — and the one it puts at risk</b>.
+                <ul>
+                  <li>The fifth field is what turns a review into something leadership can act on. Give <b>all five lenses the same key results</b> — this quarter's OKRs (you can add your own). Examples (invented):
+                    <ul>
+                      <li><b>KR1</b> patient 3-month retention from 61% to 68%</li>
+                      <li><b>KR2</b> zero privacy incidents, DPIA coverage at 100% of live features</li>
+                      <li><b>KR3</b> patient NPS from 42 to 50</li>
+                      <li><b>KR4</b> support tickets per 100 sessions from 9.4 to 6.0</li>
+                      <li><b>KR5</b> contribution margin per session from 18% to 24%</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><b>Let the main agent recompose</b> — a lens-by-lens table, the risks that more than one lens raised, <b>the OKR line</b> (which key results this decision moves, which it endangers, and where two lenses disagree about that), and a recommendation (<b>ship / kill / ship with conditions</b>) with the three conditions that unlock it — and <b>have it write the result to a Markdown file in your folder</b>, e.g. <code>decision-review-ai-summary.md</code>.
+                <ul>
+                  <li>Not just an answer in the chat: a file. Exercise 2 reads it, exercise 3's skill produces one every time, and a review that survives the chat is one you can send, diff and keep</li>
+                </ul>
+              </li>
+            </ol>
+          </li>
+          <li><b>Now save the panel.</b> Ask Claude to turn each of the five into a reusable subagent file inside this project — and to tell you <i>where</i> it saved them and why. Open one and read it: it's a Markdown file, exactly like a skill or a memory file.</li>
+          <li><b>Prove the reuse.</b> Open a fresh chat, paste the <b>test decision below</b> and ask for the same review from the saved panel — writing to its own <code>.md</code>, so the first one stays put. It's a completely different decision, not a variation: if the panel only works on the case it was born from, it isn't reusable. And if you had to re-explain the lenses, the save didn't work.</li>
+        </ol>
+
+        <details class="sample"><summary>Test decision</summary>
+          <div class="pbox">
+            <button class="copy">Copy</button>
+            <span class="pl">Test decision · invented, like everything today</span>
+<pre>Unobravo is considering peer-support groups inside the app. Small group chats
+where patients on similar paths can talk to each other between sessions:
+up to 8 people, matched by topic, no therapist in the room. Members can flag a
+message, and a moderator reviews anything flagged within 24 hours; whatever
+looks like a crisis is escalated to the clinical team.
+
+Proposed pilot: 3 topics, 200 patients who opt in, 12 weeks.
+
+Ship it, kill it, or ship it with conditions?</pre>
+          </div>
+        </details>
+
+
+        <details class="sample"><summary>Sample prompts</summary>
+          <div class="pbox">
+            <button class="copy">Copy</button>
+            <span class="pl">Prompt 1 · the review</span>
+<pre>Below is a decision we're weighing. Run 5 subagents in parallel, each taking
+exactly one lens and blind to the other four:
+
+1. clinical quality and safety
+2. privacy, data protection and compliance
+3. patient trust and brand
+4. operations and support load
+5. money and viability
+
+This quarter's OKRs, for all five to work against (invented):
+KR1 patient 3-month retention from 61% to 68%
+KR2 zero privacy incidents, DPIA coverage at 100% of live features
+KR3 patient NPS from 42 to 50
+KR4 support tickets per 100 sessions from 9.4 to 6.0
+KR5 contribution margin per session from 18% to 24%
+
+Each returns exactly five things, half a page maximum:
+- their verdict: SHIP / KILL / SHIP WITH CONDITIONS
+- the single biggest risk they see, and who it lands on
+- the one condition that would make them say yes
+- what evidence would change their mind
+- the key result above that this decision MOVES, and the one it PUTS AT RISK —
+  name the KR, say which direction, and say what the number would have to do for
+  the claim to be true. Any of the five is fair game, including one that isn't
+  obviously yours. If their lens touches none of the five, say so plainly instead
+  of stretching to fit one.
+
+Then recompose it yourself into: (a) a table with one row per lens, (b) the risks
+that more than one lens raised, (c) the OKR line — one row per key result: who
+says it moves, who says it's at risk, and any two lenses that disagree about the
+same KR — and (d) your recommendation — SHIP / KILL / SHIP WITH CONDITIONS —
+with the 3 conditions that unlock it. Where the case doesn't say something, write
+"not specified" instead of inventing it. Never invent a number.
+
+Write the whole recomposition to a Markdown file in this folder called
+decision-review-ai-summary.md — the decision at the top, then the table, the
+shared risks, the OKR line, and the recommendation. Don't just answer in the chat.
+
+THE DECISION:
+[paste the decision here]</pre>
+          </div>
+          <div class="pbox">
+            <button class="copy">Copy</button>
+            <span class="pl">Prompt 2 · keep the panel</span>
+<pre>Save each of those five reviewers as its own reusable subagent file in this
+project, so I can call the whole panel again on a different decision without
+re-explaining any of it. Give each one a clear name, its lens, the five fields
+it must return, and the rule that it works only from what it's given and never
+invents a number.
+
+Then tell me exactly where you saved them and why there, and how I call the
+panel in a new chat.</pre>
+          </div>
+        </details>
+
+        <div class="done">
+          <span class="bl">✅ Done when</span>
+          <label><input type="checkbox"> The five ran <b>at the same time</b>, and you can see one risk you hadn't thought of</label>
+          <label><input type="checkbox"> The review is <b>a <code>.md</code> file in your folder</b>, not just an answer in the chat — with a recommendation and three named conditions in it</label>
+          <label><input type="checkbox"> Every lens named <b>a key result</b>, and at least one KR has a lens saying it moves and another saying it's at risk</label>
+          <label><input type="checkbox"> The five subagent files exist in your folder, and the panel ran <b>in a new chat</b> without you re-explaining the lenses</label>
+        </div>
+      </div>
+    </article>
+
+    <!-- E2 -->
+    <article class="ex rv" id="e2">
+      <div class="ex-head">
+        <div class="l"><span class="enum">02</span><span class="etag b">/goal</span></div>
+        <span class="etime">15′</span>
+      </div>
+      <div class="ex-body">
+        <h3>Turn the verdict into an HTML page that passes a bar</h3>
+        <p>The review from exercise 1 is raw material. What you'd actually circulate is one page someone can read in a minute. So don't edit it by hand: <span class="hl">write down what "good" means, once, as criteria a stranger could check</span> — then let Claude grade its own work against them and keep fixing until it passes.</p>
+
+        <div class="box goal">
+          <span class="bl">🎯 Goal</span>
+          A one-page HTML decision review you'd send to leadership, produced by a loop that <b>stopped on its own</b> — plus a change log showing what it fixed and why.
+        </div>
+
+        <div class="box mat">
+          <span class="bl">📁 What you need</span>
+          <ul>
+            <li>The <code>.md</code> review from exercise 1 — point Claude at the file</li>
+            <li>The same chat you used for step 1</li>
+          </ul>
+        </div>
+
+        <span class="sub">Step by step</span>
+        <ol class="steps">
+          <li><b>Decide what the page must contain</b> before you write the prompt: the recommendation up top, the five lenses at a glance, the shared risks, the key results the decision moves or endangers, the conditions as a checklist.</li>
+          <li><b>Write four or five criteria — every one checkable.</b> A number, a time, a yes/no. <i>"Readable in 60 seconds"</i> works. <i>"Compelling"</i> does not — an unverifiable criterion just makes the loop guess.</li>
+          <li><b>Add the three things that make this a goal loop</b> — one that iterates towards a verifiable outcome and then stops on its own, not one that runs on a clock: a self-grade out of 10 each round, a change log, and a stop condition (9+ or five rounds, whichever comes first).</li>
+          <li><b>Run it, then read the change log first</b> — before the final page. That log is where you find out whether your criteria were any good.</li>
+        </ol>
+
+        <details class="sample"><summary>Sample prompt</summary>
+          <div class="pbox">
+            <button class="copy">Copy</button>
+            <span class="pl">Prompt</span>
+<pre>/goal Read decision-review-ai-summary.md in this folder and build it into a
+single-page HTML artifact, then iterate it until it passes ALL of these:
+
+· the recommendation is readable in the first 5 seconds, before any scrolling
+· all 5 lenses are visible at a glance, each with its verdict color-coded
+· every risk names who it lands on and which lenses raised it
+· every condition is checkable — a number, a date, or a yes/no
+· every key result named in the review appears with its direction: moved,
+  at risk, or contested by two lenses
+· the whole thing fits one screen at 1280px wide, no horizontal scroll
+· nothing appears on the page that isn't in that file
+
+Self-grade out of 10 each round, keep a short change log of what you changed and
+why, and stop at 9+ or after 5 rounds — whichever comes first. Show me the change
+log before the final version.</pre>
+          </div>
+        </details>
+
+        <div class="done">
+          <span class="bl">✅ Done when</span>
+          <label><input type="checkbox"> The loop stopped by itself — it hit the bar or the round cap, you didn't tell it to stop</label>
+          <label><input type="checkbox"> The change log has at least one fix you agree with</label>
+          <label><input type="checkbox"> You know which of your criteria was the weakest, and why</label>
+        </div>
+      </div>
+    </article>
+
+    <!-- E3 -->
+    <article class="ex rv" id="e3">
+      <div class="ex-head">
+        <div class="l"><span class="enum">03</span><span class="etag g">Skills</span></div>
+        <span class="etime">15′</span>
+      </div>
+      <div class="ex-body">
+        <h3>Turn the whole chat into one command</h3>
+        <p>Right now this chat contains a working process: five expert lenses, a recomposition, a page, and a quality bar. That's a skill you've already tested — you just haven't packaged it. <span class="hl">Don't write a skill from a blank page; capture the one you just ran.</span></p>
+
+        <div class="box goal">
+          <span class="bl">🎯 Goal</span>
+          <code>/decision-review</code> — takes any decision in one paragraph, runs the saved panel, and hands back the page that passes the same criteria.
+        </div>
+
+        <div class="box mat">
+          <span class="bl">📁 What you need</span>
+          <ul>
+            <li>The chat from exercises 1 and 2 — capture happens <i>inside it</i></li>
+            <li>The five saved subagents from exercise 1, so the skill reuses them instead of redefining them</li>
+            <li>A second decision to test on — one is provided in the sample prompt</li>
+          </ul>
+        </div>
+
+        <span class="sub">Step by step</span>
+        <ol class="steps">
+          <li><b>Capture, in this chat:</b> "turn this chat into a skill." The wording matters — you're asking it to write down what it just did, not to invent a process.</li>
+          <li><b>Name it and define one input:</b> a decision, in a paragraph. Nothing else.</li>
+          <li><b>Point it at the saved panel</b> from exercise 1 rather than letting it re-describe the five lenses. One source, not two that drift apart.</li>
+          <li><b>Manual trigger only</b> — it should never fire on its own.</li>
+          <li><b>Now add it in the sidebar: Customize → Skills → Add → Upload skill.</b> Until it's uploaded there, it's just a file in your folder — this is the step that makes <code>/decision-review</code> callable from Claude Chat, Cowork and Code, both locally and on the web, and shareable with your colleagues.</li>
+          <li><b>Test it properly:</b> new chat, different decision. <i>"Unobravo replaces its written intake questionnaire with a 5-minute voice note the patient records in the app."</i> If the output is worse than what you built by hand, the skill is missing something — fix it now, while you still remember what.</li>
+        </ol>
+
+        <details class="sample"><summary>Sample prompt</summary>
+          <div class="pbox">
+            <button class="copy">Copy</button>
+            <span class="pl">Prompt</span>
+<pre>Turn this chat into a skill called /decision-review.
+
+Input: one decision, described in a paragraph.
+
+It must reuse the five reviewer subagents already saved in this project — don't
+redefine the lenses inside the skill, call the saved ones so there's only one
+source of truth. Then it recomposes exactly as we did here (table, shared risks,
+OKR line, recommendation with 3 conditions), writes that review to its own .md file in this
+folder named after the decision, and builds the same single-page HTML artifact,
+applying the same quality criteria before it hands anything back.
+
+Manual trigger only — it must never activate on its own.</pre>
+          </div>
+        </details>
+
+        <div class="done">
+          <span class="bl">✅ Done when</span>
+          <label><input type="checkbox"> <code>/decision-review</code> ran in a <b>new chat</b>, on the <b>second</b> decision, and produced a page you'd send</label>
+          <label><input type="checkbox"> It calls the saved subagents rather than describing the lenses again</label>
+        </div>
+      </div>
+    </article>
+
+    <!-- E4 -->
+    <article class="ex rv" id="e4">
+      <div class="ex-head">
+        <div class="l"><span class="enum">04</span><span class="etag p">Hooks</span></div>
+        <span class="etime">15′</span>
+      </div>
+      <div class="ex-body">
+        <h3>Two hooks, one at each end of a turn</h3>
+        <p>Every exchange has two moments a hook can grab: the instant before your message leaves, and the instant after the reply lands. A hook isn't Claude deciding to be careful — <span class="hl">it's code that fires whether anyone remembers or not.</span> Both of these are two lines of setup and thirty seconds to test.</p>
+
+        <div class="box goal">
+          <span class="bl">🎯 Goal</span>
+          Two working, <b>tested</b> hooks, both scoped to this folder: a <code>UserPromptSubmit</code> hook that stops a message carrying someone's contact details <i>before</i> it's sent, and a <code>Stop</code> hook that appends a line to <code>STATUS.md</code> every time Claude finishes replying.
+        </div>
+
+        <div class="box mat">
+          <span class="bl">📁 What you need</span>
+          <ul>
+            <li>Your folder, with the <code>CLAUDE.md</code> from setup</li>
+            <li>The <code>STATUS.md</code> you created at setup</li>
+            <li>A fake email address to test with — <code>mario.rossi@example.com</code> does the job</li>
+            <li>Nothing else — no connectors needed</li>
+          </ul>
+        </div>
+
+        <span class="sub">Hook A · before your message leaves</span>
+        <ol class="steps">
+          <li>Ask for a <code>UserPromptSubmit</code> hook, <b>this folder only</b>, that reads your message before it's sent and <b>blocks it</b> if it contains an email address or a phone number — with a line telling you why.</li>
+          <li>Tell it to <b>add this hook</b> leaving any other hooks untouched.</li>
+          <li><b>Test it both ways</b>, and don't skip the second half:
+            <ul>
+              <li>send <i>"summarize the notes for mario.rossi@example.com"</i> → it must stop you</li>
+              <li>send anything normal → it must go straight through</li>
+            </ul>
+          </li>
+        </ol>
+        <p style="font-size:15.5px;color:var(--muted);margin:0 0 4px">Contact details are what people actually paste by accident — a name and an email, pulled from a ticket without thinking. We could have written this in the <code>CLAUDE.md</code> file at setup, but a hook turns it into something deterministic.</p>
+
+        <span class="sub">Hook B · after Claude finishes</span>
+        <ol class="steps">
+          <li>Ask for a <code>Stop</code> hook — it fires the moment Claude finishes a reply — that appends <b>one line</b> to <code>STATUS.md</code> every time: what you asked, what it did, what's next.</li>
+          <li>Tell it to <b>add this hook</b> leaving any other hooks untouched.</li>
+          <li><b>Test it:</b> ask something trivial, then open <code>STATUS.md</code>. It should have grown by a line you never asked for.</li>
+          <li class="opt"><b>If you finish early:</b> ask once more and check it appended again rather than overwriting.</li>
+        </ol>
+        <p style="font-size:15.5px;color:var(--muted);margin:0">We could have written this in the <code>CLAUDE.md</code> file at setup, but a hook turns it into something deterministic.</p>
+
+        <details class="sample"><summary>Sample prompts</summary>
+          <div class="pbox">
+            <button class="copy">Copy</button>
+            <span class="pl">Hook A · UserPromptSubmit</span>
+<pre>In this folder only, add a UserPromptSubmit hook that reads my message before it
+is sent and blocks it if it contains an email address or a phone number.
+
+When it blocks, show exactly this: "Send blocked — that looks like someone's
+contact details. Everything in this folder is invented practice material. Take
+them out and try again."
+
+Add your own block only — don't modify any hook that's already configured.</pre>
+          </div>
+          <div class="pbox">
+            <button class="copy">Copy</button>
+            <span class="pl">Hook B · Stop</span>
+<pre>Now, same folder only, add a Stop hook — the one that fires when you finish
+replying — that appends one line to STATUS.md every single time: the date, what
+I asked, what you did, and what's next. One line, appended, never overwriting
+what's already there.
+
+Add your own block only — don't modify any hook that's already configured.</pre>
+          </div>
+        </details>
+
+        <div class="done">
+          <span class="bl">✅ Done when</span>
+          <label><input type="checkbox"> A message with a fake email in it is <b>blocked</b></label>
+          <label><input type="checkbox"> A normal message <b>still goes through</b> — a hook that blocks everything is not a win</label>
+          <label><input type="checkbox"> <code>STATUS.md</code> grew by a line after Claude replied — <b>without</b> you asking it to</label>
+          <label><input type="checkbox"> Both are scoped to this folder, not global. Open a new Code session in another folder and test the first one by including a fake email address in the prompt. It should go through</label>
+        </div>
+      </div>
+    </article>
+
+    <!-- E5 -->
+    <article class="ex rv" id="e5">
+      <div class="ex-head">
+        <div class="l"><span class="enum">05</span><span class="etag">Routines</span></div>
+        <span class="etime">20′</span>
+      </div>
+      <div class="ex-body">
+        <h3>A cloud routine that briefs you every morning</h3>
+        <p>Everything so far runs when you're there. This one doesn't: a cloud routine runs on Anthropic's side, on a schedule, <span class="hl">with your laptop shut</span> — which is also why it only sees what you've connected. Tomorrow at 8:00 you get a Slack DM that has already read your calendar, your unanswered mail and the threads waiting on you — including the dates people agreed to weeks ago and nobody has looked at since.</p>
+
+        <div class="box goal">
+          <span class="bl">🎯 Goal</span>
+          A scheduled cloud routine that reads Calendar, Gmail and Slack, and DMs you one short morning brief: what's on today, <b>what falls due in the next seven days</b>, who's waiting on a reply, and what decisions are sitting with you. <b>It reads everywhere and writes in exactly one place — a DM to you.</b>
+        </div>
+
+        <div class="box mat">
+          <span class="bl">📁 What you need</span>
+          <ul>
+            <li><b>The official Google connectors</b> authorized (Calendar + Gmail)</li>
+            <li><b>The Slack connector</b> authorized, so it can DM you</li>
+          </ul>
+        </div>
+
+        <span class="sub">Step by step</span>
+        <ol class="steps">
+          <li><b>Write the brief you actually want</b> before you touch Routines. Be specific about length and order — a morning brief that takes four minutes to read gets ignored by Thursday. Ask for: today's calendar, anything falling due this week, unanswered messages older than a day, and anything that looks like a decision waiting on you.</li>
+          <li><b>Ask for deadlines by name, and make it count the days left.</b> Not "upcoming", not "soon" — <i>what is due, for whom, in how many days</i>. Deadlines are the one thing a brief is genuinely better at than you are: they get agreed once, in a thread three weeks ago, and then nobody re-reads that thread.
+            <ul>
+              <li>Two rules worth writing into the prompt. Make it separate <b>a date someone committed to</b> from <b>a date someone floated</b>, and have it quote the line the date came from — otherwise you get a confident deadline nobody actually agreed on</li>
+              <li>If a deadline belongs to a key result — a check-in, a review, an end-of-quarter number — have it say which one. That's the same OKR thread from exercise 1, arriving on the day it matters instead of at the end of the quarter</li>
+              <li>Have it close the brief with any decision someone needs from you. Most will be small. When one isn't, that paragraph is exactly what <code>/decision-review</code> takes as input</li>
+            </ul>
+          </li>
+          <li><b>Run it once by hand, in a normal chat.</b> Never schedule something you haven't seen work. Fix the shape here, where it's cheap.</li>
+          <li><b>Add the silence rule:</b> if there's nothing worth saying, say nothing. A routine that pings you every day with "nothing to report" gets muted in a week, and then it's worse than not having it.</li>
+          <li><b>Now make it a routine:</b> Claude Code → Routines → New routine → <b>Cloud</b> → paste the working prompt → schedule it for a weekday morning.</li>
+          <li><b>Set the boundary explicitly in the prompt:</b> read-only everywhere, and the only thing it writes is the Slack DM to you. It must never reply to an email or post in a channel.</li>
+        </ol>
+
+
+        <details class="sample"><summary>Sample prompt</summary>
+          <div class="pbox">
+            <button class="copy">Copy</button>
+            <span class="pl">Prompt · run it by hand first, then paste the same text into a Cloud routine</span>
+<pre>Every weekday at 08:00, prepare my morning brief and send it to me as a Slack DM.
+
+Read, using only the official connectors:
+· Google Calendar — everything on my calendar today, with times, plus anything in
+  the next 7 days that is a deadline, a review or a check-in
+· Gmail — messages from the last 14 days that either wait on a reply from me or
+  name a date, a due date or a commitment
+· Slack — DMs and @-mentions from the last 24 hours I haven't answered, plus any
+  message in the last 14 days where someone committed to a date
+
+Then send me ONE DM, in this order, nothing else:
+1. one opening line: the single thing today actually turns on
+2. TODAY — my calendar as a list, time first, max one line each
+3. DUE IN 7 DAYS — one line each, sorted by how little time is left: what, who
+   it's for, how many days, and whether it's a date someone COMMITTED to or one
+   someone FLOATED. If it belongs to a key result, name the KR. Quote the line
+   the date came from. Omit the section if there's nothing due
+4. WAITING ON YOU — max 5 items, each one line: who, what they need, how old it is
+5. DECISIONS ON YOUR DESK — anything that reads like a choice someone needs from
+   me, one line each, or omit this section entirely if there are none
+
+Rules:
+· Read-only everywhere. The ONLY thing you write is this DM to me. Never reply to
+  an email, never post in a channel, never mark anything as read.
+· Under 200 words total. If it doesn't fit, cut the least urgent item — never the
+  deadline that's closest.
+· Never invent or estimate a date. If nobody wrote one, say "no date agreed".
+· If there is genuinely nothing worth telling me, send nothing at all.
+· Never quote medical or clinical content from any message — say "clinical thread"
+  and move on.</pre>
+          </div>
+        </details>
+
+        <div class="done">
+          <span class="bl">✅ Done when</span>
+          <label><input type="checkbox"> You ran it by hand and the brief came out short, ordered and actually readable</label>
+          <label><input type="checkbox"> It's scheduled as a <b>Cloud</b> routine, so it fires with your laptop closed</label>
+          <label><input type="checkbox"> The read-only boundary is written into the prompt, and the only write is the Slack DM to you</label>
+          <label><input type="checkbox"> The deadline section came out with <b>days left</b> on every line, and nothing in it is a date you can't trace back to a message</label>
+          <label><input type="checkbox"> Tomorrow morning, it arrives. That's the real done-when — and it happens without you</label>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <span class="hex"></span><b style="font-family:Manrope;letter-spacing:-.02em">Yellow Tech × Unobravo · AI Champions program</b>
+    </div>
+    <p style="margin:0">Session 2 · five exercises. Every case on this page is invented.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+})();
+document.querySelectorAll('button.copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var host=btn.parentElement;
+    var pre=host.querySelector('pre');
+    var txt=pre?(pre.innerText||pre.textContent):
+      Array.prototype.map.call(host.querySelectorAll('p'),function(p){return p.innerText||p.textContent;}).join('\n\n');
+    var ok=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o;},1400);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok,fb);}else{fb();}
+    function fb(){
+      var ta=document.createElement('textarea');ta.value=txt;
+      ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');ok();}catch(e){}
+      document.body.removeChild(ta);
+    }
+  });
+});
+</script>
+</body>
+</html>
