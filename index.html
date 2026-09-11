@@ -537,8 +537,7 @@ Manual trigger only — it must never activate on its own.</pre>
 
         <span class="sub">Hook A · before your message leaves</span>
         <ol class="steps">
-          <li>Ask for a <code>UserPromptSubmit</code> hook, <b>this folder only</b>, that reads your message before it's sent and <b>blocks it</b> if it contains an email address or a phone number — with a line telling you why.</li>
-          <li>Tell it to <b>add this hook</b> leaving any other hooks untouched.</li>
+          <li>Ask for a <code>UserPromptSubmit</code> hook, <b>this folder only</b>, that reads your message before it's sent and <b>blocks it</b> if it contains an email address or a phone number — with a line telling you why. Tell it to <b>add this hook</b> leaving any other hooks untouched.</li>
           <li><b>Test it both ways</b>, and don't skip the second half:
             <ul>
               <li>send <i>"summarize the notes for mario.rossi@example.com"</i> → it must stop you</li>
@@ -550,8 +549,7 @@ Manual trigger only — it must never activate on its own.</pre>
 
         <span class="sub">Hook B · after Claude finishes</span>
         <ol class="steps">
-          <li>Ask for a <code>Stop</code> hook — it fires the moment Claude finishes a reply — that appends <b>one line</b> to <code>STATUS.md</code> every time: what you asked, what it did, what's next.</li>
-          <li>Tell it to <b>add this hook</b> leaving any other hooks untouched.</li>
+          <li>Ask for a <code>Stop</code> hook — it fires the moment Claude finishes a reply — that appends <b>one line</b> to <code>STATUS.md</code> every time: what you asked, what it did, what's next. Tell it to <b>add this hook</b> leaving any other hooks untouched.</li>
           <li><b>Test it:</b> ask something trivial, then open <code>STATUS.md</code>. It should have grown by a line you never asked for.</li>
           <li class="opt"><b>If you finish early:</b> ask once more and check it appended again rather than overwriting.</li>
         </ol>
