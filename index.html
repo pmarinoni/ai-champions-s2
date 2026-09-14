@@ -166,6 +166,26 @@ footer b{color:#fff}
 .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 @media(max-width:760px){section{padding:48px 0}section[style*="--pale"]{border-radius:28px 28px 0 0}.toc .tm{display:none}}
+
+.survey{margin:34px 0 0;text-align:center}
+.survey>button{font-family:Manrope,system-ui,sans-serif;font-size:17px;font-weight:600;
+  letter-spacing:-.01em;background:var(--yellow);color:#0A1628;border:0;border-radius:var(--pill);
+  padding:14px 36px;cursor:pointer;transition:background .18s}
+.survey>button:hover{background:#FFE22E}
+#svGate{display:none;align-items:center;justify-content:center;gap:11px;flex-wrap:wrap}
+#svGate label{font-family:Figtree,system-ui,sans-serif;font-size:14.5px;font-weight:600;color:var(--muted)}
+#svCode{font-family:'Geist Mono',monospace;font-size:19px;letter-spacing:.34em;text-align:center;
+  width:132px;padding:11px 10px 11px 16px;border:1px solid var(--line-2);border-radius:12px;
+  background:#fff;color:var(--ink)}
+#svCode:focus{outline:none;border-color:var(--blue-light);box-shadow:var(--glow)}
+#svGate button{font-family:Manrope,system-ui,sans-serif;font-size:15px;font-weight:600;
+  background:var(--blue-light);color:#fff;border:0;border-radius:var(--pill);padding:12px 24px;cursor:pointer}
+#svGate button:hover{background:var(--blue-mid)}
+#svErr{display:none;font-family:Figtree,system-ui,sans-serif;font-size:14px;color:#B4231F}
+#svQr{display:none}
+#svQr img{width:376px;max-width:100%;image-rendering:pixelated;background:#fff;
+  padding:16px;border-radius:16px;box-shadow:var(--sh-md)}
+#svQr p{font-size:14.5px;color:var(--muted);margin:13px 0 0}
 </style>
 </head>
 <body>
@@ -687,6 +707,20 @@ Rules:
       </div>
     </article>
 
+    <div class="survey rv">
+      <button type="button" id="svBtn">Survey</button>
+      <div id="svGate">
+        <label for="svCode">Passcode</label>
+        <input id="svCode" type="text" inputmode="numeric" autocomplete="off" maxlength="8" aria-label="Passcode">
+        <button type="button" id="svGo">Open</button>
+        <span id="svErr">Not that one. Try again.</span>
+      </div>
+      <div id="svQr">
+        <img src="survey-qr.png" alt="QR code that opens the session survey">
+        <p>Scan it with your phone.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -694,7 +728,7 @@ Rules:
 <footer>
   <div class="wrap">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-      <span class="hex"></span><b style="font-family:Manrope;letter-spacing:-.02em">Yellow Tech × Unobravo · AI Champions program</b>
+      <b style="font-family:Manrope;letter-spacing:-.02em">Yellow Tech × Unobravo · AI Champions program</b>
     </div>
     <p style="margin:0">Session 2 · five exercises. Every case on this page is invented.</p>
   </div>
@@ -723,6 +757,29 @@ document.querySelectorAll('button.copy').forEach(function(btn){
     }
   });
 });
+
+(function(){
+  var btn=document.getElementById('svBtn'),gate=document.getElementById('svGate'),
+      inp=document.getElementById('svCode'),go=document.getElementById('svGo'),
+      err=document.getElementById('svErr'),qr=document.getElementById('svQr');
+  if(!btn){return;}
+  var code='';
+  btn.addEventListener('click',function(){
+    btn.style.display='none';gate.style.display='flex';inp.focus();
+  });
+  inp.addEventListener('input',function(){
+    var v=inp.value,stars=(v.match(/\*/g)||[]).length,fresh=v.replace(/\*/g,'').replace(/\D/g,'');
+    code=(code.slice(0,stars)+fresh).slice(0,8);
+    inp.value=new Array(code.length+1).join('*');
+    err.style.display='none';
+  });
+  function check(){
+    if(code==='1409'){gate.style.display='none';qr.style.display='block';}
+    else{err.style.display='inline';inp.value='';code='';inp.focus();}
+  }
+  go.addEventListener('click',check);
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();check();}});
+})();
 </script>
 </body>
 </html>
